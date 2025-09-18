@@ -217,7 +217,7 @@ JAZZMIN_SETTINGS = {
 
 
     "hide_apps": ['authtoken'],
-    "hide_models": [ 'auth.group', 'app.category', 'app.unit'
+    "hide_models": [ 'auth.group', 'app.category', 'app.unit', 'app.option'
                     ],   
     "order_with_respect_to": [ "app.CustomUser", "app.Product"
                             ],
