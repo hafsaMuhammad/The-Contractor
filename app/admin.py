@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from .models import  Product, Order, OrderItem, Category, Unit
+from .models import  Product, Order, OrderItem, Category, Unit, Option
 from django.utils.html import format_html
 
 
@@ -14,6 +14,10 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("name", "created_at", "updated_at")
+
+@admin.register(Option)
+class OptionAdmin(admin.ModelAdmin):
     list_display = ("name", "created_at", "updated_at")
 
 @admin.register(Unit)

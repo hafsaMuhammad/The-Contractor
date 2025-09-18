@@ -1,7 +1,7 @@
 from dynamic_rest.serializers import DynamicModelSerializer, DynamicRelationField
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Product, Order, OrderItem, Category, Unit
+from .models import Product, Order, OrderItem, Category, Unit, Option
 
 User = get_user_model()
 
@@ -46,6 +46,12 @@ class UnitSerializer(DynamicModelSerializer):
 
     class Meta:
         model = Unit
+        fields = ("id","name","created_at","updated_at")
+
+class OptionSerializer(DynamicModelSerializer):
+
+    class Meta:
+        model = Option
         fields = ("id","name","created_at","updated_at")
 
 
@@ -95,7 +101,7 @@ class OrderSerializer(DynamicModelSerializer):
                 validated_data["longitude"] = user.default_longitude
 
 
-                
+
         order = Order.objects.create(user=user, **validated_data)
 
         for it in items_data:

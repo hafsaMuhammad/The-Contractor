@@ -8,10 +8,10 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from .serializers import RegisterSerializer
 from django.contrib.auth import authenticate
-from .models import  Product, Order, Category, Unit
+from .models import  Product, Order, Category, Unit, Option
 from .serializers import (
      ProductSerializer, OrderSerializer,
-    RegisterSerializer, UserSerializer, CategorySerializer, UnitSerializer
+    RegisterSerializer, UserSerializer, CategorySerializer, UnitSerializer, OptionSerializer
 )
 from django.contrib.auth import get_user_model
 
@@ -82,6 +82,12 @@ class UnitViewSet(DynamicModelViewSet):
     serializer_class = UnitSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
+
+class OptionViewSet(DynamicModelViewSet):
+    queryset = Option.objects.all()
+    serializer_class = OptionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+ 
 
 class ProductViewSet(DynamicModelViewSet):
     queryset = Product.objects.all().order_by("-id")
