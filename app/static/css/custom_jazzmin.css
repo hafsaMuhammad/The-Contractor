@@ -1,0 +1,7 @@
+.login-logo img {
+    border-radius: 50%;   /* makes it a perfect circle */
+    width: 120px;         /* control size */
+    height: 120px;
+    object-fit: cover;    /* ensures aspect ratio looks nice */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* optional shadow */
+}

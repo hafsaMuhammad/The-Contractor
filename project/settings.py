@@ -192,9 +192,10 @@ JAZZMIN_SETTINGS = {
     "site_title": "The Contractor Admin",
     "site_header":"The Contractor",
     "site_brand": "The Contractor", 
-    # "site_logo": "jazzmin/img/logo2.jpeg",
-    # "login_logo": "jazzmin/img/logo2.jpeg",
+    "site_logo": "images/logo.png",
+    "login_logo": "images/logo.png",
     "site_logo_classes": "img-circle",
+    "login_logo_classes": "img-circle",
     "welcome_sign": "Welcome to The Contractor",
     "copyright": "The Contractor",
     # "user_avatar": "jazzmin/img/logo2.jpeg",
@@ -221,7 +222,7 @@ JAZZMIN_SETTINGS = {
         "app.Order": "fas fa-shopping-cart",   
     },
 
-    # "custom_css": "css/custom_jazzmin.css",
+    "custom_css": "css/custom_jazzmin.css",
     "show_ui_builder": True, 
     "changeform_format": "horizontal_tabs",
 }
