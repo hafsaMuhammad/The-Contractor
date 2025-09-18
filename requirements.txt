@@ -25,4 +25,5 @@ urllib3==2.5.0
 whitenoise==6.10.0
 python-dotenv
 Pillow
+dj-database-url
 

@@ -18,6 +18,8 @@ from django.urls import reverse_lazy
 import dj_database_url
 from decouple import config
 from dotenv import load_dotenv
+import dj_database_url
+
 
 load_dotenv()
 
@@ -101,15 +103,21 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.postgresql'),
+#         'NAME': os.getenv('SQL_DATABASE', 'contractor'),
+#         'USER': os.getenv('SQL_USER', 'postgres'),
+#         'PASSWORD': os.getenv('SQL_PASSWORD', 'postgres'),
+#         'HOST': os.getenv('SQL_HOST', 'localhost'),
+#         'PORT': os.getenv('SQL_PORT', '5433'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': os.getenv('SQL_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.getenv('SQL_DATABASE', 'contractor'),
-        'USER': os.getenv('SQL_USER', 'postgres'),
-        'PASSWORD': os.getenv('SQL_PASSWORD', 'postgres'),
-        'HOST': os.getenv('SQL_HOST', 'localhost'),
-        'PORT': os.getenv('SQL_PORT', '5433'),
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL") 
+    )
 }
 
 # Password validation
