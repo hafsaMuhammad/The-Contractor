@@ -26,4 +26,7 @@ whitenoise==6.10.0
 python-dotenv
 Pillow
 dj-database-url
+django-import-export
+openpyxl
+
 

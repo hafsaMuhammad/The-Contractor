@@ -2,9 +2,30 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from .models import  Product, Order, OrderItem, Category, Unit, Option
 from django.utils.html import format_html
+from import_export.admin import ImportExportModelAdmin
+from import_export.formats import base_formats
+from .resources import ProductResource
+
 
 
 User = get_user_model()
+
+
+class importExportAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    def get_export_formats(self):
+        """
+        Returns available export formats.
+        """
+        formats = (base_formats.XLSX,)
+        return [f for f in formats if f().can_export()]
+
+    def get_import_formats(self):
+        """
+        Returns available import formats.
+        """
+        formats = (base_formats.XLSX,)
+        return [f for f in formats if f().can_import()]
+
 
 @admin.register(User)
 class CustomUserAdmin(admin.ModelAdmin):
@@ -25,9 +46,14 @@ class UnitAdmin(admin.ModelAdmin):
     list_display = ("name", "created_at", "updated_at")
 
 
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class OptionInline(admin.TabularInline):
+    model = Option
 
+
+@admin.register(Product)
+class ProductAdmin(importExportAdmin ):
+
+    resource_class = ProductResource 
     @admin.display(description="Image")
     def get_image(self, obj):
         if obj.image:
@@ -40,6 +66,7 @@ class ProductAdmin(admin.ModelAdmin):
             return None
         
     list_display = ("name","get_image","category","unit","price_per_unit","available_quantity")
+    inlines = [OptionInline,]
 
 
 class OrderItemInline(admin.TabularInline):

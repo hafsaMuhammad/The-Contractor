@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     "corsheaders",
     "dynamic_rest",
-
+    "import_export",
     "app",
 ]
 
@@ -169,6 +169,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Use our custom user model
 AUTH_USER_MODEL = "app.CustomUser"
 
+
+
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -217,9 +219,9 @@ JAZZMIN_SETTINGS = {
 
 
     "hide_apps": ['authtoken'],
-    "hide_models": [ 'auth.group', 'app.category', 'app.unit', 'app.option'
+    "hide_models": [ 'auth.group',
                     ],   
-    "order_with_respect_to": [ "app.CustomUser", "app.Product"
+    "order_with_respect_to": [ "app.CustomUser", "app.Product", "app.Order"
                             ],
 
   
@@ -228,6 +230,9 @@ JAZZMIN_SETTINGS = {
         "app.CustomUser": "fas fa-user",          
         "app.Product": "fas fa-box",      
         "app.Order": "fas fa-shopping-cart",   
+        "app.Option":"fas fa-cogs",
+        "app.Unit":"fas fa-ruler-combined",
+        "app.Category":"fas fa-layer-group",
     },
 
     "custom_css": "css/custom_jazzmin.css",

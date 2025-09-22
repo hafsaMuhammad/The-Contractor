@@ -60,6 +60,10 @@ class Unit(TimestampModel):
 
 class Option(TimestampModel):
     name = models.CharField(max_length=200)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, null=True, blank=True, related_name='options')
+
+
 
     def __str__(self):
         return self.name
@@ -69,7 +73,6 @@ class Product(TimestampModel):
     image = models.ImageField(upload_to='product_images/', null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
     unit = models.ForeignKey(Unit, on_delete=models.CASCADE, null=True, blank=True)
-    options = models.ManyToManyField(Option, null=True, blank=True)
     description = models.TextField(blank=True)
     price_per_unit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     available_quantity = models.DecimalField(max_digits=12, decimal_places=3, null=True, blank=True)

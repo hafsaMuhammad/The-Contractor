@@ -52,12 +52,12 @@ class OptionSerializer(DynamicModelSerializer):
 
     class Meta:
         model = Option
-        fields = ("id","name","created_at","updated_at")
+        fields = ("id","name", "price", "product","created_at","updated_at")
 
 
 class ProductSerializer(DynamicModelSerializer):
     category =CategorySerializer(embed=True, read_only=True)
-    unit = UnitSerializer(embed=True, read_only=True) 
+    unit = UnitSerializer(embed=True, read_only=True)
     
 
     class Meta:
