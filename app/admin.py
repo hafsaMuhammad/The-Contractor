@@ -29,7 +29,7 @@ class importExportAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 @admin.register(User)
 class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ("username", "email", "role", "is_staff")
+    list_display = ("username", "email", "role", "full_name", "phone")
     list_filter = ("role", "is_staff")
 
 
@@ -75,7 +75,7 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("contact_name","contact_phone","status", "user","created_at")
+    list_display = ("contact_name","contact_phone","status", "user", "total_price","created_at")
     inlines = [OrderItemInline]
     search_fields = ["contact_name"]
     list_filter = ("status",  "user", "contact_name", "created_at")

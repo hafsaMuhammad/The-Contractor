@@ -2,6 +2,7 @@ from dynamic_rest.serializers import DynamicModelSerializer, DynamicRelationFiel
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Product, Order, OrderItem, Category, Unit, Option
+from .utils import send_order_email
 
 User = get_user_model()
 
@@ -21,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "username", "email", "password", "role", "full_name", "phone")
+        fields = ("id", "username", "email", "password", "role", "full_name", "phone", "default_location_text")
         read_only_fields = ("id",)
 
     def create(self, validated_data):
@@ -58,11 +59,12 @@ class OptionSerializer(DynamicModelSerializer):
 class ProductSerializer(DynamicModelSerializer):
     category =CategorySerializer(embed=True, read_only=True)
     unit = UnitSerializer(embed=True, read_only=True)
+    options = OptionSerializer(embed=True,read_only=True, many=True )
     
 
     class Meta:
         model = Product
-        fields = ("id","name","category","unit","description","price_per_unit","available_quantity","created_at", "updated_at")
+        fields = ("id","name", "image","category","unit","description","price_per_unit","options","available_quantity","created_at", "updated_at")
         read_only_fields = ("id","created_at")
 
 class OrderItemSerializer(DynamicModelSerializer):
@@ -75,17 +77,21 @@ class OrderItemSerializer(DynamicModelSerializer):
         read_only_fields = ("id","price_at_order")
 
 class OrderSerializer(DynamicModelSerializer):
-    items = OrderItemSerializer(many=True)
+    items = OrderItemSerializer(many=True, embed=True)
 
     class Meta:
         model = Order
-        fields = ("id","user","contact_name","contact_phone","location_text","latitude","longitude","note","status","created_at","updated_at","items")
-        # read_only_fields = ("id","status","created_at","user")
+        fields = ("id","user","contact_name","contact_phone","location_text","latitude","longitude","note","status","created_at","updated_at","items", "total_price")
+        read_only_fields = ("id","status","created_at"
+                            # ,"user",
+                            ,"total_price" )
 
     def create(self, validated_data):
         items_data = validated_data.pop("items", []) 
         request = self.context.get("request")
         user = request.user if (request and request.user and request.user.is_authenticated) else None
+
+        validated_data.pop("user", None)
 
         # if user provided and fields are empty → copy from user defaults
         if user:
@@ -103,6 +109,8 @@ class OrderSerializer(DynamicModelSerializer):
 
 
         order = Order.objects.create(user=user, **validated_data)
+        
+
 
         for it in items_data:
             prod = it.get("product") or it.get("product_id")
@@ -120,6 +128,9 @@ class OrderSerializer(DynamicModelSerializer):
                 quantity=qty,
                 price_at_order=price
             )
+            
+        send_order_email(order)
+
 
         return order
     

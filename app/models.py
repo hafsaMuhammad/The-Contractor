@@ -127,7 +127,7 @@ class Order(TimestampModel):
 
     @property
     def total_price(self):
-        return sum(item.subtotal for item in self.orderitem_set.all())
+        return sum(item.subtotal for item in self.items.all())
 
 
 class OrderItem(models.Model):
@@ -148,3 +148,4 @@ class OrderItem(models.Model):
     @property
     def subtotal(self):
         return self.quantity * self.price_at_order
+    

@@ -1,9 +1,9 @@
-jazzmin
-image view
-test registration
-default name, number
+order progress , binding, confirmed, delivered
 
-different views 
+
+and this options with price.. it would be a big issue
+
+default location for the user?
 
 
 

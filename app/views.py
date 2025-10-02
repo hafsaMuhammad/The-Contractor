@@ -13,6 +13,7 @@ from .serializers import (
      ProductSerializer, OrderSerializer,
     RegisterSerializer, UserSerializer, CategorySerializer, UnitSerializer, OptionSerializer
 )
+from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -97,30 +98,36 @@ class ProductViewSet(DynamicModelViewSet):
 class OrderViewSet(DynamicModelViewSet):
     queryset = Order.objects.all().order_by("-created_at")
     serializer_class = OrderSerializer
+    permission_classes = [AllowAny]
+        
+    def perform_create(self, serializer):
+        user = self.request.user if self.request.user.is_authenticated else None
+        serializer.save(user=user)
 
-    def get_permissions(self):
-        # anyone can create an order (guest). reading list: admins see all, normal users see their own
-        if self.action == "create":
-            return [permissions.AllowAny()]
-        if self.request.user and self.request.user.is_authenticated:
-            # admins get full access
-            if getattr(self.request.user, "role", None) == "admin":
-                return [permissions.IsAuthenticated()]
-            # normal user: can view/update his own orders (we'll filter queryset)
-            return [permissions.IsAuthenticated()]
-        return [permissions.IsAuthenticatedOrReadOnly()]
 
-    def get_queryset(self):
-        user = self.request.user
-        qs = super().get_queryset()
-        # if admin -> return all
-        if user and user.is_authenticated and getattr(user, "role", None) == "admin":
-            return qs
-        # if authenticated normal user -> only their orders
-        if user and user.is_authenticated:
-            return qs.filter(user=user)
-        # unauthenticated -> no list (or you can return all pending guest orders if you want)
-        return qs.none()
+    # def get_permissions(self):
+    #     # anyone can create an order (guest). reading list: admins see all, normal users see their own
+    #     if self.action == "create":
+    #         return [permissions.AllowAny()]
+    #     if self.request.user and self.request.user.is_authenticated:
+    #         # admins get full access
+    #         if getattr(self.request.user, "role", None) == "admin":
+    #             return [permissions.IsAuthenticated()]
+    #         # normal user: can view/update his own orders (we'll filter queryset)
+    #         return [permissions.IsAuthenticated()]
+    #     return [permissions.IsAuthenticatedOrReadOnly()]
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     qs = super().get_queryset()
+    #     # if admin -> return all
+    #     if user and user.is_authenticated and getattr(user, "role", None) == "admin":
+    #         return qs
+    #     # if authenticated normal user -> only their orders
+    #     if user and user.is_authenticated:
+    #         return qs.filter(user=user)
+    #     # unauthenticated -> no list (or you can return all pending guest orders if you want)
+    #     return qs.none()
 
 
 

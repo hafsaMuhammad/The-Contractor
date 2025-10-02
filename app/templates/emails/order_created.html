@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .order-header { margin-bottom: 20px; }
+        .order-items { border-collapse: collapse; width: 100%; }
+        .order-items th, .order-items td { border: 1px solid #ddd; padding: 8px; }
+        .order-items th { background-color: #f4f4f4; }
+        .total { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="order-header">
+        <h2>New Order #{{ order.id }}</h2>
+        <p><strong>Customer:</strong> 
+            {% if order.user %}
+                {{ order.user.full_name }}
+            {% else %}
+                {{ order.contact_name }}
+            {% endif %}
+        </p>
+        <p><strong>Phone:</strong> {{ order.contact_phone }}</p>
+        {% if order.location_text %}
+        <p><strong>Location:</strong> {{ order.location_text }}</p>
+        {% endif %}
+        {% if order.note %}
+        <p><strong>Note:</strong> {{ order.note }}</p>
+        {% endif %}
+    </div>
+
+    <table class="order-items">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Subtotal</th>
+        </tr>
+        {% for item in order.items.all %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.price_at_order }}</td>
+            <td>${{ item.subtotal }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3" class="total">Total</td>
+            <td class="total">${{ order.total_price }}</td>
+        </tr>
+    </table>
+</body>
+</html>

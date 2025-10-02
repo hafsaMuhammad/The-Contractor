@@ -171,6 +171,18 @@ AUTH_USER_MODEL = "app.CustomUser"
 
 
 
+
+#email settings
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "hafsa.mohamed1999@gmail.com"
+EMAIL_HOST_PASSWORD = "xamg ablh jowp zldr"
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
 
