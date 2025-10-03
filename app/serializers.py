@@ -129,7 +129,7 @@ class OrderSerializer(DynamicModelSerializer):
                 price_at_order=price
             )
             
-        # send_order_email(order)
+        send_order_email(order)
 
 
         return order

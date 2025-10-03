@@ -28,5 +28,7 @@ Pillow
 dj-database-url
 django-import-export
 openpyxl
+mailersend
+django-anymail[mailersend]
 
 

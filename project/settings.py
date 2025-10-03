@@ -173,13 +173,12 @@ AUTH_USER_MODEL = "app.CustomUser"
 
 
 #email settings
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "hafsa.mohamed1999@gmail.com"
-EMAIL_HOST_PASSWORD = "xamg ablh jowp zldr"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND = "anymail.backends.mailersend.EmailBackend"
+MAILERSEND_API_TOKEN = "mlsn.41a6b1b3eec7881aea5aea07710b984b515ec29b0252207bb277e9cbdd7f3ae5"
+DEFAULT_FROM_EMAIL =EMAIL_HOST_USER
+
 
 
 
