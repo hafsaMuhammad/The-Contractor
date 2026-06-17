@@ -176,7 +176,7 @@ AUTH_USER_MODEL = "app.CustomUser"
 EMAIL_HOST_USER = "hafsa.mohamed1999@gmail.com"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_BACKEND = "anymail.backends.mailersend.EmailBackend"
-MAILERSEND_API_TOKEN = "mlsn.41a6b1b3eec7881aea5aea07710b984b515ec29b0252207bb277e9cbdd7f3ae5"
+MAILERSEND_API_TOKEN = "mlsn.4...."
 DEFAULT_FROM_EMAIL =EMAIL_HOST_USER
 
 
